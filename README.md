@@ -1,0 +1,2 @@
+# opengt
+Growtopia Server Emulator
