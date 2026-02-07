@@ -1,0 +1,16 @@
+# Local Files
+build/
+.vscode/
+
+# Build Caches
+linux/makecontrol/*
+linux/makegame/*
+linux/makelogon/*
+linux/makemessenger/*
+linux/maketrans/*
+
+!linux/makecontrol/CMakeLists.txt
+!linux/makegame/CMakeLists.txt
+!linux/makelogon/CMakeLists.txt
+!linux/makemessenger/CMakeLists.txt
+!linux/maketrans/CMakeLists.txt
