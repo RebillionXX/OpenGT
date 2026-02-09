@@ -1,5 +1,9 @@
-// 8/2/26 - RebillionXX
-// OpenGT.Main - Main Entry Point
+/*
+    8/2/26 - RebillionXX
+    OpenGT.Main - Main Entry Point
+
+    LEAVE YOUR CREDITS HEERE.
+*/
 
 #include <csignal>
 #include "App.h"
@@ -20,7 +24,26 @@ int main(int argc, const char** argv, const char** envp)
 		}
 	}
 
-    g_pLog = new CLogFileBase();
+    g_pLog = new CLogFileA();
+    if (!g_pLog || !g_pLog->Create(".gtlogs/opengt_main.txt", 1000))
+        return 1;
+
+    g_pApp->m_mainLogIdx = g_pLog->AddLogThread("INIT", gettid());
+    g_pApp->SetupParm();
+
+    g_pLog->WriteLog("OpenGT Main V1.0.0");
+
+    for (i32 i = 0; i < 10; i++)
+    {
+        g_pLog->WriteLog("HELLO WORLD. (%d)", i);
+    }
+
+    g_cachedTick = GetSystemTimeTick();
+
+    //
+    //
+    //
+    //
     
     while (!g_pApp->m_bFrameQuitRequested)
     {

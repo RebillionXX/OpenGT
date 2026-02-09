@@ -1,23 +1,13 @@
 #pragma once
 #include "PlatformSetup.h"
 #include "Util/MiscUtils.h"
-/*
-#include "Util/LogFile.h"
-#include "Util/MiscUtils.h"
 #include "Util/ResourceUtils.h"
-*/
 
 #include "Common/CommonDef.h"
 #include "Common/CommonServerDef.h"
 
-#if defined(PB_GAME)
-#include "S2MO/S2MO.h"
-#endif
-#if defined(PB_CONTROL) || defined(PB_GAME)
-#include "Server/ServerDef.h"
-#endif
-#if defined(PB_CONTROL)
-#include "SIADefine.h"
+#if defined(OPENGT_MAIN)
+#include "../OpenGT.Main/App.h"
 #endif
 
 #ifdef _DEBUG

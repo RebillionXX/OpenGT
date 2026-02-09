@@ -2,11 +2,11 @@
 
 CApp* g_pApp = NULL;
 
-CLogFileBase* g_pLog = NULL;
+CLogFileA* g_pLog = NULL;
 
 CApp::CApp() : CBaseApp()
 {
-    //
+    m_mainLogIdx    = 0;
 }
 
 CApp::~CApp()

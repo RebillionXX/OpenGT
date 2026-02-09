@@ -14,7 +14,10 @@ add_executable(opengt.main
     ../shared/Common/CommonServerDef.cpp
     ../shared/Engine/RingBuffer.cpp
     ../shared/Logger/LogFileBase.cpp
+    ../shared/Logger/LogFileA.cpp
+    ../shared/Logger/LogFileW.cpp
     ../shared/Util/MiscUtils.cpp
+    ../shared/Util/ResourceUtils.cpp
 
     ../OpenGT.Main/Main.cpp
     ../OpenGT.Main/App.cpp

@@ -2,7 +2,7 @@
 
 CLogFileBase::CLogFileBase()
 {
-    //
+    m_workCounter = 0;
 }
 
 CLogFileBase::~CLogFileBase()
@@ -10,12 +10,9 @@ CLogFileBase::~CLogFileBase()
     Destroy();
 }
 
-bool CLogFileBase::Create(const char* pStrFileName, i32 flushTimerDelayMS)
+bool CLogFileBase::Create(i32 logBufferCount)
 {
-    m_flushTimerDelayMS = flushTimerDelayMS;
-    m_pFile = fopen(pStrFileName, "a+");
-    if (!m_pFile)
-        return false;
+    m_bufferCount           = logBufferCount;
 
     // Start the background log flushing thread :DD
     m_worker = std::thread([this]()
@@ -29,6 +26,11 @@ bool CLogFileBase::Create(const char* pStrFileName, i32 flushTimerDelayMS)
 void CLogFileBase::Destroy()
 {    
     m_bRunning = false;
+
+    for (u32 i = 0; i < m_workCounter; i++)
+    {
+        SAFE_DELETE(m_ppLogBuffer[i]);
+    }
 
     if (m_pFile)
     {
@@ -57,4 +59,32 @@ void CLogFileBase::Update()
 bool CLogFileBase::UpdateLog()
 {
     return false;
+}
+
+i32 CLogFileBase::FindWorkIdx()
+{
+    i32 threadID = (i32)gettid();
+
+    for (u32 i = 0; i < m_workCounter; i++)
+    {
+        if (m_aThreadID[i] != threadID)
+            continue;
+
+        return i;
+    }
+
+    return -1;
+}
+
+i32 CLogFileBase::FindWorkIdx(i32 threadID)
+{
+    for (u32 i = 0; i < m_workCounter; i++)
+    {
+        if (m_aThreadID[i] != threadID)
+            continue;
+
+        return i;
+    }
+
+    return -1;
 }

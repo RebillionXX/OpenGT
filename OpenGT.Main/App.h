@@ -1,21 +1,24 @@
 #pragma once
 #include "PlatformSetup.h"
 #include "BaseApp.h"
-#include "Logger/LogFileBase.h"
+#include "Logger/LogFileA.h"
 
 class CApp : public CBaseApp
 {
 private:
     //
 
-protected:
-    virtual void SetupParm() override;
-
+public:
+    // Main Logger's Thread ID
+    i32 m_mainLogIdx;
+    
 public:
     CApp();
     virtual ~CApp();
+
+    virtual void SetupParm() override;
 };
 
 extern CApp* g_pApp;
 
-extern CLogFileBase* g_pLog;
+extern CLogFileA* g_pLog;

@@ -21,12 +21,10 @@ public:
     CBaseApp();
     virtual ~CBaseApp();
     
-protected:
     // Called to initialize and register application-specific command-line parameters
     // Must be implemented by derived classes
     virtual void SetupParm() = 0;
 
-public:
     // Returns the total number of stored command-line parameters
     i32 GetParmCount();
 
