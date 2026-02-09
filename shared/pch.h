@@ -1,5 +1,6 @@
 #pragma once
 #include "PlatformSetup.h"
+#include "Util/MiscUtils.h"
 /*
 #include "Util/LogFile.h"
 #include "Util/MiscUtils.h"

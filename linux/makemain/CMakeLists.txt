@@ -1,8 +1,8 @@
 cmake_minimum_required (VERSION 3.10)
-project(gt.control)
+project(opengt.main)
 # additional compiler flags -DSIMPLE_PROFILING_ACTIVE
 
-add_definitions(-std=c++17 -DENABLE_PROFILER -DOPENGT_CONTROL -D_DEBUG)
+add_definitions(-std=c++17 -DENABLE_PROFILER -DOPENGT_MAIN -D_DEBUG)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../../bin/linuxserver")
 set(CMAKE_BUILD_TYPE "Debug")
@@ -16,7 +16,7 @@ add_definitions(-O3 -DNDEBUG)
 ENDIF(CMAKE_BUILD_TYPE MATCHES "Release")
 
 include_directories(../../shared)
-include_directories(../../source/OpenGT.Control)
+include_directories(../../source/OpenGT.Main)
 #include_directories(../Lunar.Shared/Network/enet/include)
 
 # add_executable(gt.control
@@ -39,13 +39,15 @@ include_directories(../../source/OpenGT.Control)
 #     ../../source/Lunar.Logon/Main.cpp
 # )
 
-add_executable(gt.control
+add_executable(opengt.main
+    ../../shared/BaseApp.cpp
     ../../shared/PlatformSetup.cpp
     ../../shared/Common/CommonDef.cpp
     ../../shared/Common/CommonServerDef.cpp
+    ../../shared/Util/MiscUtils.cpp
 
-    ../../source/OpenGT.Control/Main.cpp
-    ../../source/OpenGT.Control/App.cpp
+    ../../source/OpenGT.Main/Main.cpp
+    ../../source/OpenGT.Main/App.cpp
 )
 
 include_directories(/usr/include)
@@ -53,11 +55,11 @@ include_directories(/usr/include/mysql)
 link_directories(/usr/lib/x86_64-linux-gnu)
 link_directories(/usr/lib/mysql) 
 
-target_precompile_headers(gt.control PRIVATE
+target_precompile_headers(opengt.main PRIVATE
     ../../shared/pch.h
 )
 
-target_link_libraries(gt.control PRIVATE
+target_link_libraries(opengt.main PRIVATE
     mysqlclient
     # z
 )
