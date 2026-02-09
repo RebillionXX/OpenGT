@@ -3,17 +3,4 @@ build/
 .vscode/
 
 # Binary Files
-bin/linuxserver/opengt.main
-
-# Build Caches
-linux/makemain/*
-linux/makegame/*
-linux/makelogon/*
-linux/makemessenger/*
-linux/maketrans/*
-
-!linux/makemain/CMakeLists.txt
-!linux/makegame/CMakeLists.txt
-!linux/makelogon/CMakeLists.txt
-!linux/makemessenger/CMakeLists.txt
-!linux/maketrans/CMakeLists.txt
+bin/opengt.main

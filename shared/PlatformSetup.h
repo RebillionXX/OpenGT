@@ -46,3 +46,32 @@ typedef double      f64;
 #define			MIN( a, b)								( (a) > (b) ? (b) : (a))
 #define			MAX( a, b)								( (a) > (b) ? (a) : (b))
 #define			MINMAX( _min_, _v_, _max_ )				( MIN( MAX( (_min_), (_v_) ), (_max_) ) )
+
+// Returns The current working directory of the application, with a trailing '/'
+std::string GetAppPath();
+
+// Returns The path where application data should be saved
+// !! Currently returns an empty string !!
+std::string GetSavePath();
+
+// Returns A 32-bit timer that accumulates milliseconds since the program started
+// The value increments in a monotonic fashion
+u32 GetSystemTimeTick();
+
+// Returns A 64-bit timer in milliseconds since the program started
+// Useful for long-running timers to avoid overflow
+u64 GetSystemTimeTickLong();
+
+// Returns The current system time in milliseconds as a double.
+// Provides a slightly more precise timer than GetSystemTimeTick()
+f64 GetSystemTimeAccurate();
+
+// Returns The current local time formatted as "HH:MM:SS"
+std::string GetTimeAsString();
+
+// Returns The current local date and time formatted as "DD/MM HH:MM:SS"
+std::string GetDateAndTimeAsString();
+
+// Retrieves the current local date and time components
+// Outputs: monthOut, dayOut, yearOut, hourOut, minOut, secOut
+void GetDateAndTime(i32* monthOut, i32* dayOut, i32* yearOut, i32* hourOut, i32* minOut, i32* secOut);
