@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-echo "Configuring OpenGT.Control ..."
-cd makecontrol
+echo "Configuring OpenGT.Main ..."
+cd makemain
 cmake .
 cmake --build .
 
