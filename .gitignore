@@ -1,6 +1,9 @@
 # Local Files
-build/
-.vscode/
+build/*
+.vscode/*
 
 # Binary Files
 bin/opengt.main
+
+# Logs
+bin/.gtlogs/*

@@ -9,6 +9,7 @@ struct LOG_FILE_BUFFER
 
 CLogFileA::CLogFileA()
 {
+    m_flushTimerTick = 0;
     m_strFileName[0] = '\0';
 }
 
@@ -33,7 +34,7 @@ bool CLogFileA::Create(const char* strFileName, i32 flushTimerDelayMS, i32 logBu
 
 void CLogFileA::Destroy()
 {
-    //
+    UpdateLog(true);
 }
 
 i32 CLogFileA::AddLogThread(const char* strPreString, i32 threadID)
@@ -76,11 +77,23 @@ void CLogFileA::WriteLog(const char* strLog, ... )
     vsnprintf(buffer, LOG_STRING_MAX, strLog, marker);
     va_end(marker);
 
-	PushLog(buffer);
+	PushLog(LogType::Default, buffer);
 }
 
-// TODO: FlushTimerDelayMS - RebillionXX
-bool CLogFileA::UpdateLog()
+void CLogFileA::WriteDebug(const char* strLog, ... )
+{
+    char buffer[LOG_STRING_MAX];
+    memset((void*)buffer, 0, sizeof(buffer));
+
+    va_list marker;
+    va_start(marker, strLog);
+    vsnprintf(buffer, LOG_STRING_MAX, strLog, marker);
+    va_end(marker);
+
+	PushLog(LogType::Debug, buffer);
+}
+
+bool CLogFileA::UpdateLog(bool bForceUpdate)
 {
     i32 logCount;
     LOG_FILE_BUFFER* pLogBuffer;
@@ -102,11 +115,24 @@ bool CLogFileA::UpdateLog()
         }
     }
 
+    if (m_flushTimerTick < g_cachedTick || bForceUpdate)
+	{
+        if (m_pFile)
+        {
+            fflush(m_pFile);
+        }
+
+        m_flushTimerTick = g_cachedTick + m_flushTimerDelayMS;
+    }
+
 	return bWorking;
 }
 
 void CLogFileA::WriteLogFile(char* strLog)
 {
+    if (!m_pFile)
+        return;
+
     i32 length = (i32)SysText::Length(strLog);
     fwrite(strLog, length, 1, m_pFile);
 
@@ -115,7 +141,7 @@ void CLogFileA::WriteLogFile(char* strLog)
 #endif
 }
 
-void CLogFileA::PushLog(char* strLog)
+void CLogFileA::PushLog(LogType type, char* strLog)
 {
     i32 workIdx = FindWorkIdx();
     if (workIdx == -1)
@@ -135,7 +161,20 @@ void CLogFileA::PushLog(char* strLog)
         i32 mon, day, year, hour, min, sec;
         GetDateAndTime(&mon, &day, &year, &hour, &min, &sec);
 
-        SysText::Format(pLogBuffer->m_strMessage, LOG_STRING_MAX, "[%02d:%02d:%02d][%s] %s\r\n", hour, min, sec, m_aStrLogInit[workIdx], strLog);
+        switch (type)
+        {
+            case LogType::Debug:
+            {
+                SysText::Format(pLogBuffer->m_strMessage, LOG_STRING_MAX, "[%02d:%02d:%02d][%s] **DEBUG** %s\r\n", hour, min, sec, m_aStrLogInit[workIdx], strLog);
+                break;
+            }
+            default:
+            {
+                SysText::Format(pLogBuffer->m_strMessage, LOG_STRING_MAX, "[%02d:%02d:%02d][%s] %s\r\n", hour, min, sec, m_aStrLogInit[workIdx], strLog);
+                break;
+            }
+        }
+        
         pRingBuffer->PushPointerIdx();
     }
 }

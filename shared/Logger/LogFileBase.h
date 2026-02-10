@@ -38,7 +38,7 @@ private:
     void Update();
     
 protected:
-    virtual bool UpdateLog();
+    virtual bool UpdateLog(bool bForceUpdate);
 
     i32 FindWorkIdx();
     i32 FindWorkIdx(i32 threadID);

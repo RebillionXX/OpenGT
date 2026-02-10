@@ -23,27 +23,24 @@ int main(int argc, const char** argv, const char** envp)
 			g_pApp->AddParm(argv[i]);
 		}
 	}
+    g_pApp->SetupParm();
 
     g_pLog = new CLogFileA();
     if (!g_pLog || !g_pLog->Create(".gtlogs/opengt_main.txt", 1000))
-        return 1;
+        return false;
 
     g_pApp->m_mainLogIdx = g_pLog->AddLogThread("INIT", gettid());
-    g_pApp->SetupParm();
 
     g_pLog->WriteLog("OpenGT Main V1.0.0");
-
-    for (i32 i = 0; i < 10; i++)
-    {
-        g_pLog->WriteLog("HELLO WORLD. (%d)", i);
-    }
-
     g_cachedTick = GetSystemTimeTick();
 
-    //
-    //
-    //
-    //
+    if (!g_pApp->Create())
+    {
+        delete g_pApp;
+        return 1;
+    }
+
+    g_pLog->WriteLog("Running...");
     
     while (!g_pApp->m_bFrameQuitRequested)
     {

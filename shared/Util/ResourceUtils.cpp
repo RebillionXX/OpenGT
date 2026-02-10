@@ -4,6 +4,105 @@
 #include <iomanip>
 #include <cstdarg>
 
+std::string SeparateStringSTL(std::string input, i32 index, char delimiter)
+{
+	char stInput[4048];
+	if (SeparateString(input.c_str(), index, delimiter, stInput))
+		return stInput;
+
+	return "";
+}
+
+bool SeparateString(const char str[], i32 num, char delimiter, char* result)
+{
+	size_t sLen = std::strlen(str);
+	i32 l = 0;
+	i32 c = 0;
+
+	for (u32 k = 0; str[k] != 0; k++)
+	{
+		if (str[k] == delimiter)
+		{
+			l++;
+			if (l == num + 1)
+				break;
+
+			if (k < sLen)
+				c = 0;
+		}
+		if (str[k] != delimiter)
+			result[c++] = str[k];
+	}
+	result[c] = 0;
+
+	if (l < num)
+	{
+		result[0] = 0;
+		return false;
+	}
+	return true;
+}
+
+void StringReplace(const std::string& what, const std::string& with, std::string& in)
+{
+	size_t pos = 0;
+	size_t whatLen = what.length();
+	size_t withLen = with.length();
+	while ((pos = in.find(what, pos)) != std::string::npos)
+	{
+		in.replace(pos, whatLen, with);
+		pos += withLen;
+	}
+}
+
+i32 GetFileSize(const std::string& file)
+{
+	i32 memLength = -1;
+	FILE* pFile = fopen(file.c_str(), "r");
+	if (pFile)
+	{
+		fseek(pFile, 0, SEEK_END);
+		memLength = ftell(pFile);
+		fseek(pFile, 0, SEEK_SET);
+		fclose(pFile);
+	}
+	return memLength;
+}
+
+void AppendStringToFile(const std::string& file, const std::string& text)
+{
+	FILE* pFile = fopen(file.c_str(), "a+");
+	if (!pFile)
+		return;
+
+	fwrite(text.c_str(), text.size(), 1, pFile);
+	fclose(pFile);
+}
+
+bool StringFromStartMatches(const std::string& line, const std::string textToMatch)
+{
+	for (u32 i = 0; i < (u32)textToMatch.size(); i++)
+	{
+		if (i >= line.length())
+			return false;
+		if (line[i] != textToMatch[i])
+			return false;
+	}
+	return true;
+}
+
+bool StringFromEndMatches(const std::string& line, const std::string textToMatch)
+{
+	if (line.size() < textToMatch.size())
+		return false;
+
+	i32 sizeOfTextToMatch = (i32)strlen(textToMatch.c_str());
+	if (strncmp(&(line.c_str()[line.size() - sizeOfTextToMatch]), textToMatch.c_str(), sizeOfTextToMatch) == 0)
+		return true;
+
+	return false;
+}
+
 void SysMem::Copy(void* pDest, const void* pSrc, u32 sz)
 {
 	memcpy(pDest, pSrc, (u64)sz);

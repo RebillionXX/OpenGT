@@ -24,20 +24,27 @@ bool CLogFileBase::Create(i32 logBufferCount)
 }
 
 void CLogFileBase::Destroy()
-{    
+{
+    // Signal the worker thread to stop
     m_bRunning = false;
 
-    for (u32 i = 0; i < m_workCounter; i++)
+    // Wait for the worker thread to finish before cleanup
+    if (m_worker.joinable())
     {
-        SAFE_DELETE(m_ppLogBuffer[i]);
+        m_worker.join();
     }
 
+    // Now safe to cleanup resources
     if (m_pFile)
     {
         fclose(m_pFile);
+        m_pFile = NULL;
     }
-
-    m_pFile = NULL;
+    
+    for (i32 i = 0; i < m_workCounter; i++)
+    {
+        SAFE_DELETE(m_ppLogBuffer[i]);
+    }
 }
 
 void CLogFileBase::Update()
@@ -48,7 +55,7 @@ void CLogFileBase::Update()
 
     while (m_bRunning)
     {
-        bWorking = UpdateLog();
+        bWorking = UpdateLog(false);
         if (!bWorking)
         {
             usleep(1);
@@ -56,7 +63,7 @@ void CLogFileBase::Update()
     }
 }
 
-bool CLogFileBase::UpdateLog()
+bool CLogFileBase::UpdateLog(bool bForceUpdate)
 {
     return false;
 }

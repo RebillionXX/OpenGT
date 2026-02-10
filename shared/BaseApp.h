@@ -20,7 +20,11 @@ public:
 public:
     CBaseApp();
     virtual ~CBaseApp();
-    
+
+    /*
+    //          APPLICATION PARAMETERS          //
+    */
+
     // Called to initialize and register application-specific command-line parameters
     // Must be implemented by derived classes
     virtual void SetupParm() = 0;

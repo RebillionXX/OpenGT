@@ -9,6 +9,7 @@ include_directories(../source/OpenGT.Main)
 
 add_executable(opengt.main
     ../shared/BaseApp.cpp
+    ../shared/ConfigBase.cpp
     ../shared/PlatformSetup.cpp
     ../shared/Common/CommonDef.cpp
     ../shared/Common/CommonServerDef.cpp
@@ -16,11 +17,19 @@ add_executable(opengt.main
     ../shared/Logger/LogFileBase.cpp
     ../shared/Logger/LogFileA.cpp
     ../shared/Logger/LogFileW.cpp
+    ../shared/Network/NetUtils.cpp
     ../shared/Util/MiscUtils.cpp
     ../shared/Util/ResourceUtils.cpp
+    ../shared/Util/TextParser.cpp
+    
+    ../shared/Util/FileSystem/FileSystem.cpp
+    ../shared/Util/FileSystem/FileManager.cpp
+    ../shared/Util/FileSystem/StreamingInstance.cpp
+    ../shared/Util/FileSystem/StreamingInstanceFile.cpp
 
     ../OpenGT.Main/Main.cpp
     ../OpenGT.Main/App.cpp
+    ../OpenGT.Main/MainConfig.cpp
 )
 
 include_directories(/usr/include)

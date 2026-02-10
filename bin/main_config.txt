@@ -1,0 +1,7 @@
+# Config File for OpenGT.Main
+# RebillionXX
+# NOTE: use ("#", "/", "//") to comment.
+
+# common|local_tcp_ip|local_tcp_port|
+# common|192.168.100.120|39120|
+common|127.0.0.1|39120|
