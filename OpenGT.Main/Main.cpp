@@ -26,10 +26,10 @@ int main(int argc, const char** argv, const char** envp)
     g_pApp->SetupParm();
 
     g_pLog = new CLogFileA();
-    if (!g_pLog || !g_pLog->Create(".gtlogs/opengt_main.txt", 1000))
+    if (!g_pLog || !g_pLog->Create("OpenGT_Main", 1000))
         return false;
 
-    g_pApp->m_mainLogIdx = g_pLog->AddLogThread("INIT", gettid());
+    g_pApp->m_mainLogIdx = g_pLog->AddLogThread("MAIN", gettid());
 
     g_pLog->WriteLog("OpenGT Main V1.0.0");
     g_cachedTick = GetSystemTimeTick();
@@ -47,6 +47,8 @@ int main(int argc, const char** argv, const char** envp)
         g_cachedTick = GetSystemTimeTick();
 
 		// PROFILE_BEGIN("MAIN LOOP")
+
+        g_pApp->Update();
         // g_pApp->LagCheckStart();
 
         // PROFILE_BEGIN("SLEEP0")
@@ -59,6 +61,8 @@ int main(int argc, const char** argv, const char** envp)
         // UpdateLogCache(false);
         // PROFILE_END("MAIN LOOP")
 	}
+
+    delete g_pApp;
 
     return 0;
 }

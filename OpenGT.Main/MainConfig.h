@@ -8,7 +8,7 @@ public:
     u16 m_localTcpPort;
 
 protected:
-    virtual bool OnLoad(const std::vector<ConfigEntry>& entries) override;
+    virtual bool OnLoad(const CTextParser& parser) override;
     virtual bool OnReload() override;
 
 public:

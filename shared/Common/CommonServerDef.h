@@ -12,3 +12,10 @@ enum ASC_SERVER_TYPE
     ASC_SERVER_UPDATER      = 4, // Currently un-used, planning to use as in-game event updater e.g. Guild Event
 	ASC_SERVER_COUNT,
 };
+
+struct SERVER_INFO_COMMON
+{
+    u32 m_connIP;
+    u16 m_connPort;
+    u8 m_type;
+};

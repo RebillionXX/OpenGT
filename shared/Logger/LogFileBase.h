@@ -50,3 +50,5 @@ public:
     virtual bool Create(i32 logBufferCount);
     virtual void Destroy();
 };
+
+extern void LogMsg(const char* strLog, ...);

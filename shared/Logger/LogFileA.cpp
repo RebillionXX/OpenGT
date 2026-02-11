@@ -25,7 +25,13 @@ bool CLogFileA::Create(const char* strFileName, i32 flushTimerDelayMS, i32 logBu
     SysMem::FillZero(m_ppLogBuffer, sizeof(m_ppLogBuffer));
     SysText::Copy(m_strFileName, strFileName, LOG_STRING_MAX);
 
-    m_pFile = fopen(strFileName, "a+");
+    i32 mon, day, year, hour, min, sec;
+    GetDateAndTime(&mon, &day, &year, &hour, &min, &sec);
+
+    char tmp[255];
+    SysText::Format(tmp, sizeof(tmp), ".gtlogs/%s_%02d_%02d_%02d_%02d.txt", m_strFileName, day, mon, year, hour);
+
+    m_pFile = fopen(tmp, "a+");
     if (!m_pFile)
         return false;
 

@@ -1,4 +1,5 @@
 #include "Logger/LogFileBase.h"
+#include <cstdarg>
 
 CLogFileBase::CLogFileBase()
 {
@@ -94,4 +95,21 @@ i32 CLogFileBase::FindWorkIdx(i32 threadID)
     }
 
     return -1;
+}
+
+void LogMsg(const char* strLog, ...)
+{
+    char buffer[LOG_STRING_MAX];
+    memset((void*)buffer, 0, sizeof(buffer));
+
+    va_list marker;
+    va_start(marker, strLog);
+    vsnprintf(buffer, LOG_STRING_MAX, strLog, marker);
+    va_end(marker);
+
+#ifdef OPENGT_MAIN
+    g_pLog->WriteLog(buffer);
+#else
+    printf("%s\n", buffer);
+#endif
 }

@@ -3,12 +3,17 @@
 #include "Util/MiscUtils.h"
 #include "Util/ResourceUtils.h"
 
+// required for timeval
+#include <time.h>
+
 /*
 #include "Network/NetworkAcceptor.h"
 #include "Network/NetworkClientSocket.h"
 #include "Network/NetworkPacket.h"
 #include "Network/NetworkServerContext.h"
+*/
 #include "Network/NetworkServerSocket.h"
+/*
 #include "Network/NetworkSession.h"
 #include "Network/NetworkSessionManager.h"
 #include "Network/NetworkSocket.h"
@@ -22,29 +27,31 @@
 #include "../OpenGT.Main/App.h"
 #endif
 
+#define IP_ADDR_SIZE					32
+
 #ifdef _DEBUG
-    #define     LOG_TRACE           	__LogMsg
+    #define     LOG_TRACE           			LogMsg
 #else
 	#if defined(WINAPI)
-		#define LOG_TRACE		   	 	__noop
+		#define LOG_TRACE		   	 			__noop
 	#else
-		#define LOG_TRACE(...)			((void)0)
+		#define LOG_TRACE(...)					((void)0)
 	#endif
 #endif
 
-#define         LOG_TRACE_LINE(X)		__LogMsg( "%s (%d) : %s", __FILE__, __LINE__, X);
-#define         LOG_TRACE_FUNCTION(X, ...)	__LogMsg( "%s: " X, __PRETTY_FUNCTION__, ##__VA_ARGS__);
+#define         LOG_TRACE_LINE(X)				LogMsg( "%s (%d) : %s", __FILE__, __LINE__, X);
+#define         LOG_TRACE_FUNCTION(X, ...)		LogMsg( "%s: " X, __PRETTY_FUNCTION__, ##__VA_ARGS__);
 
 #ifdef _DEBUG
-    #define     LOG_ERROR           	__LogError
+    #define     LOG_ERROR           			__LogError
 #else
 	#if defined(WINAPI)
-		#define LOG_ERROR		    	__noop
+		#define LOG_ERROR		    			__noop
 	#else
-		#define LOG_ERROR(...)			((void)0)
+		#define LOG_ERROR(...)					((void)0)
 	#endif
 #endif
 
-#define         LOG_ERROR_LINE(X)		__LogError( "%s (%d) : %s", __FILE__, __LINE__, X);
+#define         LOG_ERROR_LINE(X)				__LogError( "%s (%d) : %s", __FILE__, __LINE__, X);
 
-#define			LOG_DEBUG(X, ...)		__LogMsg( "**DEBUG** (%s): " X, __PRETTY_FUNCTION__, ##__VA_ARGS__);
+#define			LOG_DEBUG(X, ...)				__LogMsg( "**DEBUG** (%s): " X, __PRETTY_FUNCTION__, ##__VA_ARGS__);

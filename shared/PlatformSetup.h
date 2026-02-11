@@ -14,6 +14,13 @@
 #endif
 #include <unistd.h>
 
+#ifndef WIN32
+
+#define INVALID_SOCKET          (i32)(~0)
+#define SOCKET_ERROR            (-1)
+
+#endif
+
 typedef int8_t      i8;
 typedef int16_t     i16;
 typedef int32_t     i32;

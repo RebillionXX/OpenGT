@@ -4,13 +4,6 @@
 class CConfigBase
 {
 protected:
-    struct ConfigEntry
-    {
-        std::string m_key;
-        std::vector<std::string> m_values;
-    };
-
-protected:
     // Full path to the configuration file
     std::string m_filePath;
 
@@ -19,7 +12,7 @@ protected:
 
 protected:
     // Called after file is loaded
-    virtual bool OnLoad(const std::vector<ConfigEntry>& entries) = 0;
+    virtual bool OnLoad(const CTextParser& parser) = 0;
     virtual bool OnReload() = 0; // Irrelevant
 
 public:

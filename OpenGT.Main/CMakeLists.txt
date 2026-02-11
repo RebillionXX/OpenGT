@@ -4,7 +4,7 @@ project(opengt.main)
 add_definitions(-DOPENGT_MAIN)
 
 include_directories(../shared)
-include_directories(../source/OpenGT.Main)
+include_directories(../OpenGT.Main)
 #include_directories(../Lunar.Shared/Network/enet/include)
 
 add_executable(opengt.main
@@ -18,6 +18,7 @@ add_executable(opengt.main
     ../shared/Logger/LogFileA.cpp
     ../shared/Logger/LogFileW.cpp
     ../shared/Network/NetUtils.cpp
+    ../shared/Network/NetworkServerSocket.cpp
     ../shared/Util/MiscUtils.cpp
     ../shared/Util/ResourceUtils.cpp
     ../shared/Util/TextParser.cpp
@@ -30,6 +31,8 @@ add_executable(opengt.main
     ../OpenGT.Main/Main.cpp
     ../OpenGT.Main/App.cpp
     ../OpenGT.Main/MainConfig.cpp
+    ../OpenGT.Main/Node/NodeSession.cpp
+    ../OpenGT.Main/Node/NodeSessionManager.cpp
 )
 
 include_directories(/usr/include)
